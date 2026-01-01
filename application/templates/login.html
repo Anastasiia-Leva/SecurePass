@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}SecurePass — Вхід{% endblock %}
+
+{% block head_extra %}
+{# Можна додати специфічні стилі для login.html, якщо потрібно #}
+<style>
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="form-container">
+    <h3 class="text-center mb-4">Вхід до SecurePass</h3>
+
+    {# Важливо: переконайтеся, що CSRF токен додається, якщо ви його використовуєте (наприклад, з Flask-WTF) #}
+    {# <form method="POST" action="{{ url_for('auth.login') }}" id="login-form"> #}
+    {# {{ form.hidden_tag() if form }} #}
+    <form method="POST" action="{{ url_for('auth.login') }}" id="login-form">
+        <div class="mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Введіть email, який ви використовували при реєстрації">
+            <label for="email" class="form-label">Email</label>
+            <input name="email" id="email" type="email" class="form-control" placeholder="example@email.com" value="{{ form_data.email or '' }}" required>
+        </div>
+
+        <div class="mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Введіть ваш майстер-пароль (мінімум 8 символів)">
+            <label for="passwordLogin" class="form-label">Пароль</label> {# Змінено for на passwordLogin для відповідності ID #}
+            <div class="password-wrapper">
+                {# ВИПРАВЛЕНО: id="password" змінено на id="passwordLogin", щоб уникнути конфліктів, якщо на одній сторінці буде кілька полів пароля з однаковими ID (хоча тут це одне поле) #}
+                {# Головне, щоб ID тут співпадав з першим аргументом в onclick #}
+                <input name="password" type="password" class="form-control" id="passwordLogin" placeholder="Ваш пароль" minlength="8" required>
+                <button type="button" class="toggle-password" onclick="togglePasswordVisibility('passwordLogin', this)" aria-label="Показати пароль">
+                    <i class="bi bi-eye-slash"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="lock-timer-message" class="form-text-custom text-warning mb-2" style="display: none;"></div>
+
+        {# Оновлені кнопки для кращого розташування #}
+        <button type="submit" class="btn btn-custom-action w-100 mb-2" id="login-btn">Увійти</button>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-custom-secondary w-100 mb-3">Зареєструватись</a> 
+        
+        <div class="text-center">
+            <a href="{{ url_for('auth.google_login_initiate') }}" class="btn btn-google w-100"> {# w-100 для однакової ширини #}
+                <i class="bi bi-google"></i> Увійти через Google
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ super() }}
+    {# Функція togglePasswordVisibility вже має бути в main.js, який підключається через super() #}
+    <script>
+
+
+      
+        const lockedMessageDiv = document.getElementById('lock-timer-message');
+        
+        const lockedMessage = "{{ locked_message | default('', true) }}"; 
+        const lockoutRemainingSeconds = parseInt("{{ lockout_remaining_seconds | default(0, true) }}", 10);
+
+        if (lockedMessage && lockedMessageDiv) {
+            if (lockoutRemainingSeconds > 0) {
+                let timeLeft = lockoutRemainingSeconds;
+                lockedMessageDiv.innerHTML = `${lockedMessage} Залишилося: <span id="lockoutTimer">${Math.ceil(timeLeft / 60)}</span> хв.`;
+                lockedMessageDiv.style.display = 'block';
+                
+                const timerSpan = document.getElementById('lockoutTimer');
+                const interval = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft <= 0) {
+                        clearInterval(interval);
+                        lockedMessageDiv.style.display = 'none';
+                       
+                    } else {
+                        if(timerSpan) timerSpan.textContent = Math.ceil(timeLeft / 60);
+                    }
+                }, 1000);
+                
+            } else {
+                 lockedMessageDiv.textContent = lockedMessage; 
+                 lockedMessageDiv.style.display = 'block';
+            }
+        }
+    </script>
+{% endblock %}

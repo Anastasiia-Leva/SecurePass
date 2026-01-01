@@ -1,0 +1,275 @@
+{# SecurePass/application/templates/manage_settings.html #}
+{% extends "base.html" %}
+
+{% block title %}SecurePass - Налаштування{% endblock %}
+
+{% block head_extra %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <style>
+        
+        .change-password-form-container {
+            background-color: var(--card-bg-color); 
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid var(--card-border-color); 
+        }
+        body.light-mode .change-password-form-container { 
+             background-color: #f1f3f5; 
+        }
+        .change-password-form-container h5 {
+            color: var(--main-text-color); 
+            margin-bottom: 1.2rem;
+        }
+   
+        .password-input-wrapper { 
+            position: relative;
+        }
+        .password-input-wrapper .toggle-password-visibility {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--secondary-text-color); 
+            cursor: pointer;
+            padding: 0;
+            line-height: 1; 
+        }
+         .password-input-wrapper .toggle-password-visibility:hover {
+            color: var(--main-text-color); 
+        }
+        .password-input-wrapper .toggle-password-visibility i {
+            font-size: 1.1rem;
+            vertical-align: middle; 
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="page-container-with-nav">
+    <nav class="app-nav">
+        <ul>
+            <li><a href="{{ url_for('entries.dashboard') }}" {% if request.endpoint == 'entries.dashboard' %}class="active"{% endif %}><i class="bi bi-key-fill"></i> Мої паролі</a></li>
+            <li><a href="{{ url_for('entries.password_generator_page') }}" {% if request.endpoint == 'entries.password_generator_page' %}class="active"{% endif %}><i class="bi bi-magic"></i> Генератор паролів</a></li>
+            <li><a href="{{ url_for('auth.manage_settings') }}" {% if request.endpoint == 'auth.manage_settings' %}class="active"{% endif %}><i class="bi bi-gear-fill"></i> Налаштування</a></li>
+            <li><a href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right"></i> Вихід</a></li>
+        </ul>
+    </nav>
+
+    <div class="settings-content">
+        <h4 class="mb-4">Налаштування Акаунту</h4>
+
+        <div class="setting-item">
+            <div class="setting-item-label">
+                <strong>Змінити майстер-пароль</strong>
+                <small>Змінити ваш основний пароль для входу в SecurePass.</small>
+            </div>
+            <button type="button" id="showChangePasswordFormBtn" class="btn btn-custom-action btn-sm">Змінити</button>
+        </div>
+        <div id="changePasswordFormContainer" class="change-password-form-container" style="display: none;">
+            <h5>Зміна майстер-пароля</h5>
+            <form id="changePasswordForm">
+                <div class="mb-3">
+                    <label for="current_password" class="form-label">Поточний пароль</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" class="form-control" id="current_password" name="current_password" required autocomplete="current-password">
+                        <button type="button" class="toggle-password-visibility" data-target-input="current_password" aria-label="Показати/сховати поточний пароль">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="new_password" class="form-label">Новий пароль (мін. 8 символів)</label>
+                     <div class="password-input-wrapper">
+                        <input type="password" class="form-control" id="new_password" name="new_password" required minlength="8" autocomplete="new-password">
+                        <button type="button" class="toggle-password-visibility" data-target-input="new_password" aria-label="Показати/сховати новий пароль">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="confirm_new_password" class="form-label">Підтвердіть новий пароль</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" class="form-control" id="confirm_new_password" name="confirm_new_password" required minlength="8" autocomplete="new-password">
+                        <button type="button" class="toggle-password-visibility" data-target-input="confirm_new_password" aria-label="Показати/сховати підтвердження нового пароля">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="changePasswordError" class="text-danger mb-2" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary btn-sm">Далі</button>
+                <button type="button" id="cancelChangePasswordBtn" class="btn btn-outline-secondary btn-sm ms-2">Скасувати</button>
+            </form>
+            <form id="changePassword2faForm" style="display: none;" class="mt-3">
+                 <div class="mb-3">
+                    <label for="change_password_otp_code" class="form-label">Код підтвердження з Email</label>
+                    <input type="text" class="form-control code-input" id="change_password_otp_code" name="otp_code" required maxlength="6" pattern="\d{6}" autocomplete="one-time-code">
+                 </div>
+                 <div id="changePassword2faError" class="text-danger mb-2" style="display: none;"></div>
+                 <button type="submit" class="btn btn-primary btn-sm">Підтвердити зміну пароля</button>
+                 <button type="button" id="cancel2faChangePasswordBtn" class="btn btn-outline-secondary btn-sm ms-2">Скасувати</button>
+            </form>
+        </div>
+        
+        {# ... (інші setting-item як у твоєму файлі) ... #}
+        <div class="setting-item">
+            <div class="setting-item-label">
+                <strong>Двофакторна автентифікація (2FA)</strong>
+                <small>Додатковий рівень захисту для вашого акаунту через email.</small>
+            </div>
+            <form method="POST" action="{{ url_for('auth.toggle_2fa_action') }}" class="ms-auto">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token if csrf_token else '' }}">
+                {% if is_2fa_enabled_on_page %}
+                    <input type="hidden" name="action" value="disable">
+                    <button type="submit" class="btn btn-warning btn-sm">Вимкнути 2FA</button>
+                {% else %}
+                    <input type="hidden" name="action" value="enable">
+                    <button type="submit" class="btn btn-custom-action btn-sm">Увімкнути 2FA</button>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="setting-item">
+            <div class="setting-item-label">
+                <strong>Автоматичний вихід</strong>
+                <small>Вихід з акаунту після 10 хвилин бездіяльності.</small>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="autoLogoutSwitch"
+                       name="auto_logout_enabled" {% if user_settings.auto_logout_enabled %}checked{% endif %}
+                       data-preference-name="auto_logout_enabled">
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <div class="setting-item-label">
+                <strong>Нічний режим</strong>
+                <small>Перемкнути на темну/світлу тему.</small>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="nightModeSwitch"
+                       name="night_mode_enabled" {% if user_settings.night_mode_enabled %}checked{% endif %}
+                       data-preference-name="night_mode_enabled">
+            </div>
+        </div>
+
+        <hr class="my-4" style="border-color: var(--card-border-color);">
+
+        <div class="setting-item">
+            <div class="setting-item-label">
+                <strong>Експорт даних</strong>
+                <small>Експортувати всі ваші збережені паролі у CSV файл.</small>
+            </div>
+            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#exportConfirmModal">
+                <i class="bi bi-download"></i> Експортувати в CSV
+            </button>
+        </div>
+      
+        <hr class="my-4" style="border-color: var(--card-border-color);">
+
+        <div class="setting-item">
+            <div class="setting-item-label">
+                <strong class="text-danger">Видалити акаунт</strong>
+                <small>Увага! Ця дія видалить ваш акаунт та всі збережені дані безповоротно.</small>
+            </div>
+            <button type="button" class="btn btn-delete-account btn-sm" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                Видалити мій акаунт
+            </button>
+        </div>
+    </div>
+</div>
+
+{# Модальне вікно для підтвердження вимкнення автовиходу #}
+<div class="modal fade" id="autoLogoutDisableConfirmModal" tabindex="-1" aria-labelledby="autoLogoutDisableConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content"> 
+            <div class="modal-header">
+                <h5 class="modal-title" id="autoLogoutDisableConfirmModalLabel">Підтвердження дії</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Якщо ви вимкнете функцію автоматичного виходу, це може збільшити ризик несанкціонованого доступу до вашого акаунту у випадку, якщо ви залишите сесію активною без нагляду.</p>
+                <p><strong>Рекомендуємо залишити цю функцію увімкненою для кращої безпеки.</strong></p>
+                <p>Ви дійсно бажаєте вимкнути автоматичний вихід?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelDisableAutoLogoutBtn">Скасувати</button>
+                <button type="button" class="btn btn-warning" id="confirmDisableAutoLogoutBtn">Так, вимкнути</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Модальне вікно видалення акаунту #}
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteAccountModalLabel">Підтвердження видалення акаунту</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Ви дійсно хочете видалити ваш акаунт SecurePass?</p>
+                <p><strong>Усі ваші збережені паролі та дані будуть видалені назавжди. Цю дію неможливо буде скасувати.</strong></p>
+                <p>Для підтвердження, будь ласка, введіть ваш поточний пароль:</p>
+                {# +++ ОНОВЛЕНО: Додано password-input-wrapper та кнопку ока +++ #}
+                <div class="password-input-wrapper">
+                    <input type="password" class="form-control mb-2" id="confirmDeletePassword" name="confirm_delete_password" placeholder="Ваш поточний пароль" autocomplete="current-password">
+                    {# Використовуємо data-target-input, оскільки togglePasswordVisibility в settings_page.js очікує його #}
+                    <button type="button" class="toggle-password-visibility" data-target-input="confirmDeletePassword" aria-label="Показати/сховати пароль">
+                        <i class="bi bi-eye-slash"></i>
+                    </button>
+                </div>
+                <div id="deleteAccountError" class="text-danger" style="display: none;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteAccountBtn">Так, видалити акаунт</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Модальне вікно для підтвердження експорту CSV #}
+<div class="modal fade" id="exportConfirmModal" tabindex="-1" aria-labelledby="exportConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content"> 
+            <div class="modal-header">
+                <h5 class="modal-title" id="exportConfirmModalLabel"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Увага! Експорт Даних</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Файл експорту буде містити всі ваші паролі та інші конфіденційні дані у <strong>незашифрованому текстовому вигляді</strong>.</p>
+                <p>Будь ласка, поводьтеся з цим файлом вкрай обережно:</p>
+                <ul style="padding-left: 20px; margin-bottom: 1rem;">
+                    <li>Зберігайте його лише в надійному, зашифрованому місці.</li>
+                    <li>Не залишайте його на комп'ютері у відкритому доступі.</li>
+                    <li>Видаліть файл після використання (наприклад, після імпорту в інший менеджер).</li>
+                </ul>
+                <p class="mt-3">Ви дійсно бажаєте продовжити експорт?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                <button type="button" class="btn btn-primary" id="confirmExportCsvBtn">Так, експортувати</button> 
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ super() }}
+    <script>
+        const csrfToken = "{{ csrf_token if csrf_token else '' }}"; 
+        const settingsUrls = {
+            deleteAccount: "{{ url_for('auth.delete_account_route') }}",
+            requestPasswordChange: "{{ url_for('auth.request_master_password_change') }}",
+            confirmPasswordChange: "{{ url_for('auth.confirm_master_password_change') }}",
+            updatePreference: "{{ url_for('auth.update_user_preference') }}",
+            exportCsv: "{{ url_for('auth.export_passwords_csv') }}"
+        };
+    </script>
+    <script src="{{ url_for('static', filename='js/settings_page.js') }}"></script>
+{% endblock %}

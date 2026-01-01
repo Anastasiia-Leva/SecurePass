@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}SecurePass - {{ page_title or "Мої паролі" }}{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-container-with-nav">
+    <nav class="app-nav">
+        <ul>
+            <li><a href="{{ url_for('entries.dashboard') }}" {% if request.endpoint == 'entries.dashboard' %}class="active"{% endif %}><i class="bi bi-key-fill"></i> Мої паролі</a></li>
+            <li><a href="{{ url_for('entries.password_generator_page') }}" {% if request.endpoint == 'entries.password_generator_page' %}class="active"{% endif %}><i class="bi bi-magic"></i> Генератор паролів</a></li>
+            <li><a href="{{ url_for('auth.manage_settings') }}" {% if request.endpoint == 'auth.manage_settings' %}class="active"{% endif %}><i class="bi bi-gear-fill"></i> Налаштування</a></li>
+            <li><a href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right"></i> Вихід</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content-wrapper">
+        <aside class="sidebar">
+            <button type="button" class="btn btn-add-entry w-100 mb-3 btn-load-form-ajax"
+                    data-form-url="{{ url_for('entries.add_entry_ajax_form') }}"
+                    data-target-pane="#detailsPane">
+                <i class="bi bi-plus-circle-fill"></i> Додати +
+            </button>
+            <form method="GET" action="{{ url_for('entries.dashboard') }}" class="search-form mb-3" id="searchEntriesForm">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control search-input" placeholder="Пошук запису..." value="{{ search_term or '' }}" id="searchInputField">
+                    <button class="btn btn-search" type="submit"><i class="bi bi-search"></i></button>
+                </div>
+            </form>
+            <div class="sort-options mb-3" data-initial-sort-by="{{ current_sort_by or 'date_added' }}" data-initial-order="{{ current_order or 'desc' }}">
+                <span class="sort-label">Сортувати:</span>
+                <a href="#"
+                   class="btn btn-sort sort-link"
+                   data-sort-by="site_name"
+                   data-order="asc">
+                   <i class="bi bi-sort-alpha-down"></i> А-Я
+                </a>
+                <a href="#"
+                   class="btn btn-sort sort-link"
+                   data-sort-by="date_added"
+                   data-order="desc">
+                   <i class="bi bi-calendar-event"></i> Дата
+                </a>
+            </div>
+
+            <div class="list-group entries-list">
+                {% if entries %}
+                    {% for entry_item in entries %}
+                        <a href="#"
+                           class="list-group-item list-group-item-action entry-item {% if selected_entry and selected_entry.entry_id == entry_item.entry_id %}active-entry{% endif %}"
+                           data-entry-id="{{ entry_item.entry_id }}"
+                           data-view-url="{{ url_for('entries.view_entry_ajax_content', entry_id=entry_item.entry_id) }}">
+                            {{ entry_item.site_name or 'Без назви' }}
+                            
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="list-group-item">
+                        {% if search_term %}
+                            За вашим запитом нічого не знайдено.
+                        {% else %}
+                            У вас ще немає збережених паролів. <br>
+                            Натисніть "Додати +", щоб створити перший запис.
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </aside>
+
+        <section class="details-pane" id="detailsPane">
+            {# Контент завантажується через AJAX або відображається "Оберіть запис" #}
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ super() }}
+    <script>
+        const dashboardUrls = {
+            generatePassword: "{{ url_for('entries.generate_password_api') }}",
+            ajaxGetEntries: "{{ url_for('entries.ajax_get_entries') }}"
+        };
+    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

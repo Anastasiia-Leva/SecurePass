@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}SecurePass - Вітаємо!{% endblock %}
+
+{% block head_extra %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <style>
+
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="page-container-with-nav">
+    <nav class="app-nav">
+        <ul>
+            <li><a href="{{ url_for('entries.dashboard') }}" {% if request.endpoint == 'entries.dashboard' %}class="active"{% endif %}><i class="bi bi-key-fill"></i> Мої паролі</a></li>
+            {# ВИПРАВЛЕНО КІНЦЕВУ ТОЧКУ #}
+            <li><a href="{{ url_for('entries.password_generator_page') }}" {% if request.endpoint == 'entries.password_generator_page' %}class="active"{% endif %}><i class="bi bi-magic"></i> Генератор паролів</a></li>
+            <li><a href="{{ url_for('auth.manage_settings') }}" {% if request.endpoint == 'auth.manage_settings' %}class="active"{% endif %}><i class="bi bi-gear-fill"></i> Налаштування</a></li>
+            <li><a href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right"></i> Вихід</a></li>
+        </ul>
+    </nav>
+
+    <div class="welcome-page-content">
+        <h3><i class="bi bi-shield-lock-fill" style="color: #34A853;"></i> Вітаємо у SecurePass, {{ user_name }}!</h3>
+        
+        <p>
+            Цей менеджер паролів створений для твого комфорту та безпеки.
+        </p>
+        <p>
+            Тут ти можеш легко та надійно зберігати свої паролі, а також усі дані, необхідні для ідентифікації на інших сайтах.
+        </p>
+        
+        <div class="highlight-point">
+            <i class="bi bi-check-circle-fill"></i> 
+            <span>Генеруй надійні паролі, просто вибираючи рівень складності!</span>
+        </div>
+        
+        <div class="highlight-point">
+            <i class="bi bi-stars"></i> 
+            <span>Не потрібно придумувати складні комбінації – наш генератор вже має готові критерії для кожного рівня.</span>
+        </div>
+        
+        <div class="highlight-point">
+            <i class="bi bi-pencil-fill"></i> 
+            <span>Обирай рівень складності для генерації нового пароля, зберігай свої наявні паролі та користуйся безпечно!</span>
+        </div>
+        
+        <p class="final-cta">
+            Спробуй – і тобі сподобається! <i class="bi bi-rocket-takeoff"></i>
+        </p>
+        
+    </div>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ super() }}
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends "base.html" %} {% block title %}SecurePass — Підтвердження коду{%
+    endblock %} {% block head_extra %}
+    <style>
+      .form-container-narrow {
+        
+        background-color: #253858; 
+        padding: 30px 40px;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 400px; 
+        text-align: center; 
+      }
+    
+      .code-input-wrapper {
+        margin: 25px auto;
+      }
+    
+      .code-input {
+        width: 220px; 
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        font-size: 1.2rem; 
+        letter-spacing: 0.2em; 
+        padding: 0.5rem 0.75rem;
+      }
+    
+      .resend-container {
+        margin-top: 25px;
+      }
+    
+      .btn-resend-custom {
+        background-color: transparent;
+        color: #7b9bcd; 
+        border: none;
+        padding: 0;
+        text-decoration: underline;
+        font-size: 0.9rem;
+      }
+      .btn-resend-custom:hover {
+        color: #ffffff;
+      }
+      .btn-resend-custom:disabled {
+        color: #5a6f8a; 
+        text-decoration: none;
+        cursor: not-allowed;
+      }
+      .btn-resend-custom.active-resend {
+     
+        background-color: #34a853; 
+        color: #ffffff;
+        text-decoration: none;
+        padding: 8px 15px; 
+        border-radius: 6px;
+        font-weight: bold;
+      }
+      .btn-resend-custom.active-resend:hover {
+        background-color: #2c8e44;
+      }
+    </style>
+    {% endblock %} {% block content %}
+    <div class="form-container-narrow">
+      <h4 class="mb-3">Двофакторна Автентифікація</h4> {# Змінено заголовок для ясності #}
+    
+      <p class="form-text-custom mb-3">
+        На ваш email <strong class="text-white">{{ email }}</strong> було надіслано
+        код підтвердження для входу. <br />
+        Будь ласка, введіть його нижче.
+      </p>
+    
+      <form method="POST" action="{{ url_for('auth.enter_2fa_code') }}"> {# ВИПРАВЛЕНО #}
+        {# Якщо ви використовуєте Flask-WTF, тут буде {{ form.hidden_tag() }} #}
+        <div class="code-input-wrapper">
+          <label for="code" class="form-label visually-hidden"
+            >Код підтвердження</label
+          >
+          <input
+            type="text"
+            class="form-control code-input"
+            id="code"
+            name="code"
+            placeholder="XXXXXX"
+            required
+            maxlength="6"
+            pattern="\d{6}" 
+            title="Введіть 6-значний код"
+            autocomplete="one-time-code"
+          />
+        </div>
+        <button type="submit" class="btn btn-custom-action w-100">
+          ПІДТВЕРДИТИ
+        </button>
+      </form>
+    
+      <div class="resend-container">
+        <form
+          method="POST"
+          action="{{ url_for('auth.resend_2fa_code') }}" {# ВИПРАВЛЕНО #}
+          id="resendForm"
+          style="display: inline"
+        >
+          <button
+            type="submit"
+            class="btn-resend-custom"
+            id="resendButton"
+            disabled
+          >
+            Надіслати код повторно (<span id="countdownTimer">60</span>)
+          </button>
+        </form>
+      </div>
+    </div>
+    {% endblock %} {% block footer_scripts %} {{ super() }}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const resendButton = document.getElementById("resendButton");
+        const countdownSpan = document.getElementById("countdownTimer");
+ 
+        let timeLeft = {{ session.get('otp_resend_timeout', 60) }}; 
+        function updateButtonState() {
+          if (timeLeft > 0) {
+            resendButton.disabled = true;
+            resendButton.innerHTML = `Надіслати код повторно (<span id="countdownTimer">${timeLeft}</span>)`;
+          } else {
+            resendButton.disabled = false;
+            resendButton.textContent = "Надіслати код повторно";
+            resendButton.classList.add("active-resend");
+          }
+        }
+    
+        function startTimer() {
+
+    
+          resendButton.classList.remove("active-resend");
+          updateButtonState();
+    
+          const timerInterval = setInterval(() => {
+            timeLeft--;
+            updateButtonState();
+            if (timeLeft <= 0) {
+              clearInterval(timerInterval);
+            }
+          }, 1000);
+        }
+    
+        if (resendButton && countdownSpan) {
+          startTimer();
+        }
+      });
+    </script>
+    {% endblock %}

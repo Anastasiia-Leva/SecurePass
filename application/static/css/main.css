@@ -1,0 +1,513 @@
+
+:root {
+    --main-bg-color: #1c2b42; /* Темно-синьо-сірий фон */
+    --main-text-color: #FFFFFF; /* Білий текст */
+    --secondary-text-color: #a0b3d0; /* Світло-блакитний/сірий для другорядного тексту */
+    --card-bg-color: #1c2b42; /* Темніший синій для карток/секцій */
+    --card-border-color: #3a5a82; /* Синя рамка */
+    --input-bg-color: #1c2b42;
+    --input-border-color: #3a5a82;
+    --input-text-color: #FFFFFF;
+    --input-focus-bg-color: #203350;
+    --input-focus-border-color: #34A853; /* Зелений акцент для фокусу */
+    --input-placeholder-color: #7b9bcd;
+    --accent-color-green: #34A853;
+    --accent-color-orange: #ff8c00; /* Яскраво-помаранчевий */
+    --accent-color-blue: #677c9f48; /* Світліший синій */
+    --link-color: #8aa7cf; /* Світло-синій для посилань */
+    --link-hover-color: #FFFFFF; /* Білий при наведенні */
+    --tooltip-bg: #131c29; /* Дуже темний для tooltip */
+    --tooltip-text-color: #FFFFFF;
+    --btn-custom-action-bg: var(--accent-color-green);
+    --btn-custom-action-text: #FFFFFF;
+    --btn-custom-action-hover-bg: #2c8e44; /* Темніший зелений */
+    --btn-custom-secondary-bg: #4a698c; /* Синьо-сірий */
+    --btn-custom-secondary-text: #FFFFFF;
+    --btn-custom-secondary-hover-bg: #58799d; /* Світліший синьо-сірий */
+    
+   
+    --flash-message-info-bg: rgba(13, 130, 220, 0.9);
+    --flash-message-info-border: rgba(13, 150, 240, 1);
+    --flash-message-info-text: #FFFFFF;
+    --flash-message-success-bg: rgba(44, 142, 68, 0.9);
+    --flash-message-success-border: rgba(52, 168, 83, 1);
+    --flash-message-success-text: #FFFFFF;
+    --flash-message-warning-bg: rgba(240, 173, 78, 0.9); /* Жовтуватий */
+    --flash-message-warning-border: rgba(255, 193, 7, 1);
+    --flash-message-warning-text: #131c29; /* Темний текст для контрасту */
+    --flash-message-danger-bg: rgba(200, 35, 51, 0.9);
+    --flash-message-danger-border: rgba(220, 53, 69, 1);
+    --flash-message-danger-text: #FFFFFF;
+
+    --app-nav-bg: #1c2b42;
+    --app-nav-link-color: #a0b3d0;
+    --app-nav-link-hover-bg: #253858; /* Трохи світліший фон для hover в темній темі */
+    --app-nav-link-hover-text: #FFFFFF;
+    --app-nav-link-active-bg: var(--accent-color-blue); 
+    --app-nav-link-active-text: #FFFFFF;
+
+    --sidebar-bg: #1c2b42;
+    --details-pane-bg: #1c2b42;
+    
+    
+    --entry-item-bg: #34A853;               /* Фон за замовчуванням #34A853 */
+    --entry-item-text: #FFFFFF;             /* Білий текст на зеленому фоні */
+    --entry-item-border: #2a8c4a;           /* Темніший зелений для розділювачів */
+    
+    --entry-item-hover-bg: #5DB975;         /* На 20% світліший зелений для hover (#34A853 -> #5DB975) */
+    --entry-item-hover-text: #FFFFFF;       /* Білий текст */
+    
+    --entry-item-active-bg: #2c8e44;        /* Темніший зелений для активного елемента */
+    --entry-item-active-text: #FFFFFF;      /* Білий текст */
+    --entry-item-active-border: #236b38;    /* Ще темніший зелений для рамки активного елемента */
+
+    --code-input-bg: #253f61;
+    --code-input-text: #FFFFFF;
+    --code-input-border: #3a5a82;
+
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    
+  
+    --accent-color-green-rgb: 52, 168, 83;
+    --accent-color-blue-rgb: 88, 151, 251; 
+    --input-focus-border-color-rgb: var(--accent-color-green-rgb);
+}
+
+body.light-mode {
+    --main-bg-color: #f8f9fa;
+    --main-text-color: #212529;
+    --secondary-text-color: #6c757d;
+    --card-bg-color: #ffffff;
+    --card-border-color: #dee2e6;
+    --input-bg-color: #ffffff;
+    --input-border-color: #ced4da;
+    --input-text-color: #495057;
+    --input-focus-bg-color: #ffffff;
+    --input-focus-border-color: #86b7fe; /* Bootstrap синій для фокусу */
+    --input-placeholder-color: #6c757d;
+    --accent-color-green: #198754; /* Bootstrap зелений */
+    --accent-color-orange: #fd7e14; /* Bootstrap помаранчевий */
+    --accent-color-blue: #0d6efd; /* Bootstrap синій */
+    --link-color: #0d6efd;
+    --link-hover-color: #0a58ca;
+    --tooltip-bg: #000000;
+    --tooltip-text-color: #FFFFFF;
+    --btn-custom-action-bg: var(--accent-color-green);
+    --btn-custom-action-text: #FFFFFF;
+    --btn-custom-action-hover-bg: #157347;
+    --btn-custom-secondary-bg: #6c757d;
+    --btn-custom-secondary-text: #FFFFFF;
+    --btn-custom-secondary-hover-bg: #5a6268;
+
+
+    --flash-message-info-bg: rgba(207, 229, 252, 0.92);
+    --flash-message-info-border: rgba(182, 216, 250, 0.7);
+    --flash-message-info-text: #052c65;
+    --flash-message-success-bg: rgba(209, 231, 221, 0.92);
+    --flash-message-success-border: rgba(186, 219, 204, 0.7);
+    --flash-message-success-text: #0a3622;
+    --flash-message-warning-bg: rgba(255, 243, 205, 0.92);
+    --flash-message-warning-border: rgba(255, 235, 179, 0.7);
+    --flash-message-warning-text: #664d03;
+    --flash-message-danger-bg: rgba(248, 215, 218, 0.92);
+    --flash-message-danger-border: rgba(241, 196, 201, 0.7);
+    --flash-message-danger-text: #58151c;
+
+    --app-nav-bg: #e9ecef;
+    --app-nav-link-color: #495057;
+    --app-nav-link-hover-bg: #dee2e6;
+    --app-nav-link-hover-text: #000000;
+    --app-nav-link-active-bg: var(--accent-color-blue); 
+    --app-nav-link-active-text: #FFFFFF;
+    
+    --sidebar-bg: #f1f3f5;
+    --details-pane-bg: var(--card-bg-color);
+    
+   
+    --entry-item-bg: #e6f4ea; 
+    --entry-item-text: #1e4620; 
+    --entry-item-border: #ced4da; 
+    --entry-item-hover-bg: #d0e9d6; 
+    --entry-item-hover-text: #153317; 
+    --entry-item-active-bg: #28a745; 
+    --entry-item-active-text: #FFFFFF; 
+    --entry-item-active-border: #1e7e34; 
+
+
+    --code-input-bg: var(--input-bg-color);
+    --code-input-text: var(--input-text-color);
+    --code-input-border: var(--input-border-color);
+    
+   
+    --accent-color-green-rgb: 25, 135, 84;
+    --accent-color-blue-rgb: 13, 110, 253;
+    --input-focus-border-color-rgb: var(--accent-color-blue-rgb); 
+}
+
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: var(--font-family-sans-serif);
+    margin: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+.app-header {
+    width: 100%;
+    padding-top: 0px; 
+    background-color: var(--card-bg-color);
+   
+    margin-bottom: 1rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.logo-container {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.logo-link {
+    display: inline-block; 
+    text-decoration: none;
+}
+
+.logo-image {
+    height: 100px; 
+    width: auto;   
+    vertical-align: middle; 
+}
+
+
+.main-content-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    padding-top: 0px; 
+    padding-bottom: 30px; 
+}
+
+.form-container, .form-container-narrow {
+    background-color: var(--card-bg-color);
+    padding: 25px 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 480px; 
+    margin-top: 0px;   
+    margin-left: auto;   
+    margin-right: auto; 
+   
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+body.night-mode .form-container, 
+body.night-mode .form-container-narrow {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+}
+body.light-mode .form-container,
+body.light-mode .form-container-narrow {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+}
+
+
+.form-container-narrow {
+    text-align: center; 
+    max-width: 420px;
+}
+.form-container-narrow h4 {
+    color: var(--main-text-color);
+}
+
+
+.form-label {
+    margin-bottom: .4rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--secondary-text-color);
+}
+
+.form-control {
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--input-border-color);
+    color: var(--input-text-color);
+    border-radius: 6px;
+    padding: .75rem 1rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background-color .15s ease-in-out, color .15s ease-in-out;
+}
+.form-control::placeholder {
+    color: var(--input-placeholder-color);
+}
+.form-control:focus {
+    background-color: var(--input-focus-bg-color);
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--input-focus-border-color-rgb), 0.25);
+    color: var(--input-text-color);
+}
+
+
+.code-input { 
+    width: 240px !important;
+    margin-left: auto !important; 
+    margin-right: auto !important;
+    text-align: center !important;
+    font-size: 1.4rem !important; 
+    letter-spacing: 0.5em !important; 
+    padding: .6rem .75rem !important;
+    background-color: var(--code-input-bg);
+    color: var(--code-input-text);
+    border-color: var(--code-input-border);
+}
+
+
+.btn { 
+    transition: background-color 0.15s ease-in-out, transform 0.1s ease, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+.btn:active {
+    transform: translateY(1px); 
+}
+
+.btn-custom-action { 
+    background-color: var(--btn-custom-action-bg);
+    border: none;
+    color: var(--btn-custom-action-text);
+    padding: .75rem 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+.btn-custom-action:hover {
+    background-color: var(--btn-custom-action-hover-bg); 
+    color: var(--btn-custom-action-text);
+}
+
+.btn-custom-secondary { 
+    background-color: var(--btn-custom-secondary-bg);
+    border: 1px solid var(--btn-custom-secondary-bg);
+    color: var(--btn-custom-secondary-text);
+}
+.btn-custom-secondary:hover {
+    background-color: var(--btn-custom-secondary-hover-bg);
+    border-color: var(--btn-custom-secondary-hover-bg);
+    color: var(--btn-custom-secondary-text);
+}
+
+.btn-google {
+    background-color: #DB4437; 
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .75rem 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+    width: 100%;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+}
+.btn-google:hover {
+    background-color: #c23321;
+    color: white;
+}
+.btn-google .bi-google {
+    margin-right: 8px;
+}
+
+.btn-resend-custom {
+    background-color: transparent;
+    color: var(--link-color);
+    border: none;
+    padding: 5px 0;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.btn-resend-custom:hover {
+    color: var(--link-hover-color);
+}
+.btn-resend-custom:disabled {
+    color: var(--secondary-text-color);
+    text-decoration: none;
+    cursor: not-allowed;
+}
+.btn-resend-custom.active-resend {
+    background-color: var(--accent-color-green);
+    color: #FFFFFF; 
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+.btn-resend-custom.active-resend:hover {
+    background-color: var(--btn-custom-action-hover-bg);
+}
+
+.password-wrapper {
+    position: relative;
+}
+.password-wrapper .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    padding: 0;
+    color: var(--secondary-text-color);
+    cursor: pointer;
+    line-height: 1;
+}
+.password-wrapper .toggle-password:hover i {
+    color: var(--main-text-color);
+}
+.password-wrapper .toggle-password i {
+    font-size: 1.1rem;
+}
+
+.flash-messages-container {
+    width: calc(100% - 30px); 
+    max-width: 500px; 
+    position: fixed; 
+    top: 20px; 
+    left: 50%;
+    transform: translateX(-50%); 
+    z-index: 1055; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+.flash-messages-container .alert-custom {
+    border-radius: 8px;
+    padding: .9rem 1.25rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    font-size: 0.95rem;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(6px);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+.flash-messages-container .alert-custom .btn-close {
+    padding: 0.75rem 1rem;
+    margin-left: 15px; 
+}
+
+body.light-mode .flash-messages-container .alert-custom .btn-close {
+    filter: none; 
+    opacity: 0.7;
+}
+body.light-mode .flash-messages-container .alert-custom .btn-close:hover {
+    opacity: 1;
+}
+body.light-mode .alert-custom.alert-warning-custom .btn-close { 
+    color: var(--flash-message-warning-text); 
+    opacity: 0.6;
+}
+body.light-mode .alert-custom.alert-warning-custom .btn-close:hover {
+    opacity: 0.9;
+}
+
+body.night-mode .flash-messages-container .alert-custom .btn-close {
+    filter: brightness(0) invert(1) opacity(0.7);
+}
+body.night-mode .flash-messages-container .alert-custom .btn-close:hover {
+    filter: brightness(0) invert(1) opacity(1);
+}
+body.night-mode .alert-custom.alert-warning-custom .btn-close { 
+    filter: none; 
+    color: var(--flash-message-warning-text);
+    opacity: 0.6;
+}
+body.night-mode .alert-custom.alert-warning-custom .btn-close:hover {
+    opacity: 0.9;
+}
+
+.alert-custom.alert-danger-custom {
+    background-color: var(--flash-message-danger-bg);
+    border: 1px solid var(--flash-message-danger-border);
+    color: var(--flash-message-danger-text);
+}
+.alert-custom.alert-success-custom {
+    background-color: var(--flash-message-success-bg);
+    border: 1px solid var(--flash-message-success-border);
+    color: var(--flash-message-success-text);
+}
+.alert-custom.alert-warning-custom {
+    background-color: var(--flash-message-warning-bg);
+    border: 1px solid var(--flash-message-warning-border);
+    color: var(--flash-message-warning-text);
+}
+.alert-custom.alert-info-custom {
+    background-color: var(--flash-message-info-bg);
+    border: 1px solid var(--flash-message-info-border);
+    color: var(--flash-message-info-text);
+}
+
+
+.form-text-custom {
+    font-size: 0.8rem;
+    color: var(--secondary-text-color);
+    margin-top: 0.25rem;
+    display: block;
+}
+
+
+.link-custom {
+    color: var(--link-color); 
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.link-custom:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+
+.tooltip-inner {
+    background-color: var(--tooltip-bg); 
+    color: var(--tooltip-text-color);
+    border: 1px solid var(--card-border-color); 
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.tooltip.bs-tooltip-auto[data-popper-placement^="right"] .tooltip-arrow::before,
+.tooltip.bs-tooltip-end .tooltip-arrow::before {
+    border-right-color: var(--tooltip-bg);
+}
+.tooltip.bs-tooltip-auto[data-popper-placement^="left"] .tooltip-arrow::before,
+.tooltip.bs-tooltip-start .tooltip-arrow::before {
+    border-left-color: var(--tooltip-bg);
+}
+.tooltip.bs-tooltip-auto[data-popper-placement^="top"] .tooltip-arrow::before,
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: var(--tooltip-bg);
+}
+.tooltip.bs-tooltip-auto[data-popper-placement^="bottom"] .tooltip-arrow::before,
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+    border-bottom-color: var(--tooltip-bg);
+}
+
+
+.app-footer {
+    width: 100%;
+    color: var(--secondary-text-color);
+    font-size: 0.85rem;
+    padding-top: 15px; 
+    padding-bottom: 15px;
+    margin-top: auto; 
+    background-color: var(--card-bg-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}

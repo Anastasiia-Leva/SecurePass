@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}SecurePass — Реєстрація{% endblock %}
+
+{% block head_extra %}
+    <style>
+       
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h3 class="text-center mb-4">Створення акаунту SecurePass</h3>
+
+    {# {% include '_flash_messages.html' %} #} <form method="POST" action="{{ url_for('auth.register') }}">
+        {# Якщо ви використовуєте Flask-WTF, тут буде {{ form.hidden_tag() }} #}
+
+        <div class="mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Введіть ваше ім'я, яке буде відображатися в акаунті.">
+            <label for="name" class="form-label">Ім’я</label>
+            <input name="name" id="name" type="text" class="form-control" 
+                   placeholder="Ваше ім'я" 
+                   value="{{ form_data.name or '' }}" 
+                   required>
+        </div>
+
+        <div class="mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Ваш email буде використовуватися для входу та верифікації.">
+            <label for="email" class="form-label">Email</label>
+            <input name="email" id="email" type="email" class="form-control" 
+                   placeholder="example@email.com" 
+                   value="{{ form_data.email or '' }}" 
+                   required>
+            <div class="form-text-custom">Введіть актуальний email для реєстрації.</div>
+        </div>
+
+        <div class="mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Пароль має містити щонайменше 8 символів.">
+            <label for="password" class="form-label">Пароль</label>
+            <div class="password-wrapper">
+                <input name="password" type="password" class="form-control" 
+                       id="passwordRegister" {# Змінено ID, щоб уникнути конфлікту з полем пароля на сторінці логіну, якщо скрипт глобальний #}
+                       placeholder="Придумайте пароль" 
+                       minlength="8" required>
+                <button type="button" class="toggle-password" onclick="togglePasswordVisibility('passwordRegister', this)" aria-label="Показати/сховати пароль">
+                    <i class="bi bi-eye-slash"></i>
+                </button>
+            </div>
+            <div class="form-text-custom">Введіть щонайменше 8 символів.</div>
+        </div>
+
+        <div class="mb-4" data-bs-toggle="tooltip" data-bs-placement="top" title="Повторіть пароль для підтвердження.">
+            <label for="confirm_password" class="form-label">Повторіть пароль</label>
+            <div class="password-wrapper">
+                <input name="confirm_password" type="password" class="form-control" 
+                       id="confirmPasswordRegister" {# Змінено ID #}
+                       placeholder="Підтвердіть пароль" 
+                       minlength="8" required>
+                <button type="button" class="toggle-password" onclick="togglePasswordVisibility('confirmPasswordRegister', this)" aria-label="Показати/сховати пароль">
+                    <i class="bi bi-eye-slash"></i>
+                </button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-custom-action w-100 mt-2">Зареєструватись</button>
+    </form>
+    <div class="text-center mt-4">
+        <p class="mb-0">Вже маєте акаунт? <a href="{{ url_for('auth.login') }}" class="link-custom">Увійти</a></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+    {{ super() }} <script>
+      
+        if (typeof bootstrap !== 'undefined' && typeof bootstrap.Tooltip !== 'undefined') {
+            const tooltipTriggerListRegister = Array.from(document.querySelectorAll('#content [data-bs-toggle="tooltip"]'));
+            tooltipTriggerListRegister.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        } else {
+            console.warn("Bootstrap Tooltip component not found for register page. Tooltips might not work.");
+        }
+
+
+        if (typeof togglePasswordVisibility !== 'function') {
+            function togglePasswordVisibility(inputId, buttonElement) {
+                const input = document.getElementById(inputId);
+                if (!input) return;
+
+                const icon = buttonElement.querySelector('i');
+                if (!icon) return;
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                }
+            }
+        }
+    </script>
+{% endblock %}
