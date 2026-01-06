@@ -4,5 +4,5 @@ Werkzeug==3.0.3
 PyMySQL==1.1.1
 python-dotenv==1.0.1
 Authlib==1.5.2
-cryptography==42.0.7
+cryptography==46.0.3
 Flask-Migrate==4.1.0
