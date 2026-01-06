@@ -17,7 +17,8 @@
   * **Two-Factor Authentication (2FA)** via TOTP (Google Authenticator).
 * **Clean Architecture:** Strict separation of `Domain`, `Services`, and `Repositories`.
 * **Password Generator:** Cryptographically strong random password creation.
-
+* **Automated Security Updates:** Integrated GitHub Dependabot for real-time monitoring and patching of library vulnerabilities (e.g., Authlib, cryptography).
+  
 ## 🛠 Tech Stack
 * **Backend:** Python 3.12, Flask 3.0, SQLAlchemy
 * **Database:** MySQL 8.0
