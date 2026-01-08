@@ -5,16 +5,16 @@
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Security](https://img.shields.io/badge/Focus-Security-red)
 
-**SecurePass** is a web-based password management application developed as a Bachelor's Thesis project. It demonstrates the implementation of **Clean Architecture (Domain-Driven Design)** principles and industry-standard cryptographic protocols.
+**SecurePass** is a web-based password management application developed as a Bachelor's Thesis project. It demonstrates the implementation of **Clean Architecture ** principles and industry-standard cryptographic protocols.
 
 ⚠️ *Note: The application interface is localized in Ukrainian, while the codebase and documentation follow English technical standards.*
 
 ## 🚀 Key Features
-* **AES-256-GCM Encryption:** Data is encrypted using the `cryptography` library before storage.
+* **AES-256-CBC Encryption:** Data is encrypted using the `cryptography` library before storage.
 * **Secure Authentication:**
   * **Scrypt** hashing for master passwords (resistant to brute-force).
   * **Google OAuth 2.0** integration.
-  * **Two-Factor Authentication (2FA)** via TOTP (Google Authenticator).
+  * **Two-Factor Authentication (2FA)** via Email OTP.
 * **Clean Architecture:** Strict separation of `Domain`, `Services`, and `Repositories`.
 * **Password Generator:** Cryptographically strong random password creation.
 * **Automated Security Updates:** Integrated GitHub Dependabot for real-time monitoring and patching of library vulnerabilities (e.g., Authlib, cryptography).
@@ -22,7 +22,7 @@
 ## 🛠 Tech Stack
 * **Backend:** Python 3.12, Flask 3.0, SQLAlchemy
 * **Database:** MySQL 8.0
-* **Security:** `cryptography`, `authlib`, `pyotp`, `qrcode`
+* **Security:** `cryptography`(AES-256), `authlib`(OAuth), `werkzeug`(Scrypt hashing) 
 * **Frontend:** HTML5, CSS3, Bootstrap 5
 
 ## 🏗 Project Structure
